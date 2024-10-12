@@ -7,6 +7,6 @@ python port for kaggel - https://www.kaggle.com/code/zilvinasc/reinforced-learni
 and some history - https://github.com/zc42/stuff ;))
 
 **************************************************************************
-#### to me it's just pretty :)  
+#### pretty data .. :)  
   
 ![it's just pretty](./game_15_pretty_states.png)
