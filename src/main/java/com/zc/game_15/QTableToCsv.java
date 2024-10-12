@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 
 
 import static com.zc.game_15.reconstruction.QTableGenerator.loadQTable;
+import static com.zc.utils.Utils.prnt;
 
 public class QTableToCsv {
     public static void main(String[] args) {
@@ -20,7 +21,7 @@ public class QTableToCsv {
         List<String> csvData = getCsvData(qTable);
         String content = csvData.stream()
                 .sorted()
-                .peek(Utils::prnt)
+                .peek(e->prnt(MessageFormat.format("{0}  ", e)))
                 .collect(Collectors.joining("\n"));
         Utils.writeTextToFile(csvFileName, content);
     }

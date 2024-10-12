@@ -18,11 +18,11 @@ public class QTableGenerator {
         String filePath = "qTable.ser";
         HashMap<Integer, QTableRow> qTable = loadQTable(filePath);
         Map<String, Action> actionMap = QTableToCsv.convertTable(qTable);
-//        Trainer.train(qTable, filePath, 10);
-        while (true) {
-            test_v2(actionMap);
-//            test(qTable, actionMap);
-        }
+        Trainer.train(qTable, filePath, 10);
+//        while (true) {
+//            test_v2(actionMap);
+////            test(qTable, actionMap);
+//        }
     }
 
     public static HashMap<Integer, QTableRow> loadQTable(String filePath) {
