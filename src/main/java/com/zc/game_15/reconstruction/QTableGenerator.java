@@ -1,10 +1,8 @@
 package com.zc.game_15.reconstruction;
 
-import com.zc.game_15.QTableToCsv;
 import com.zc.utils.SerializedObjectLoader;
 import lombok.SneakyThrows;
 
-import java.text.MessageFormat;
 import java.util.*;
 
 import static com.zc.game_15.reconstruction.GameUtils.makeMove;
@@ -14,15 +12,18 @@ import static com.zc.utils.Utils.prntln;
 public class QTableGenerator {
 
 
-    public static void main(String[] args) {
+    public static void train() {
         String filePath = "qTable.ser";
         HashMap<Integer, QTableRow> qTable = loadQTable(filePath);
-        Map<String, Action> actionMap = QTableToCsv.convertTable(qTable);
         Trainer.train(qTable, filePath, 10);
-//        while (true) {
-//            test_v2(actionMap);
-////            test(qTable, actionMap);
-//        }
+    }
+
+    public static void test() {
+        String filePath = "qTable.ser";
+        HashMap<Integer, QTableRow> qTable = loadQTable(filePath);
+        while (true) {
+            test(qTable);
+        }
     }
 
     public static HashMap<Integer, QTableRow> loadQTable(String filePath) {
@@ -44,7 +45,7 @@ public class QTableGenerator {
     }
 
     @SneakyThrows
-    public static void test(Map<Integer, QTableRow> qTable, Map<String, Action> qTable2) {
+    public static void test(Map<Integer, QTableRow> qTable) {
 
         prntln("********************* test q table **********************");
         prntln("********************* test q table **********************");
@@ -78,13 +79,7 @@ public class QTableGenerator {
             QTableRow qTableRow = qTable.get(state0Hash);
             action = qTableRow.getActionWithMaxValue(reverseAction);
 
-
-            String key = state.getHashCodeV3__();
-            Action action1 = qTable2.getOrDefault(key, null);
-            action1 = QTableRow.getActionWithMaxValue(state, action1, reverseAction);
-
             reverseAction = GameUtils.getReverseAction(action);
-            prntln(MessageFormat.format("\naction: {0} | action2: {1} | {2}" , action, action1, action==action1));
 
             List<Integer> newState = makeMove(state.getState(), action);
             boolean isTerminal = Environment.isTerminalSuccess(newState, goals);
@@ -109,6 +104,7 @@ public class QTableGenerator {
         prntln("success: " + isTerminalSuccess);
         Thread.sleep(3000);
     }
+
     @SneakyThrows
     public static void test_v2(Map<String, Action> qTable) {
 
