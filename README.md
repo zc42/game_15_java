@@ -7,8 +7,9 @@ python port for kaggel - https://www.kaggle.com/code/zilvinasc/reinforced-learni
 and some history - https://github.com/zc42/stuff ;))
 
 **************************************************************************
-[src/main/java/com/zc/game_15/Trainer.java](https://github.com/zc42/game_15_java/blob/master/src/main/java/com/zc/game_15/Trainer.java)  
-[src/main/java/com/zc/game_15/Tester.java](https://github.com/zc42/game_15_java/blob/master/src/main/java/com/zc/game_15/Tester.java)  
+#### entry points  
+[Trainer.java](https://github.com/zc42/game_15_java/blob/master/src/main/java/com/zc/game_15/Trainer.java)  
+[Tester.java](https://github.com/zc42/game_15_java/blob/master/src/main/java/com/zc/game_15/Tester.java)  
 **************************************************************************
 #### pretty data .. :)  
   
