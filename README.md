@@ -13,4 +13,4 @@ and some history - https://github.com/zc42/stuff ;))
 **************************************************************************
 #### pretty data .. :)  
   
-![it's just pretty](./game_15_pretty_states.png)
+![it's just pretty]([./game_15_pretty_states.png](https://github.com/zc42/game_15_java/blob/master/game_15_pretty_states.png))
