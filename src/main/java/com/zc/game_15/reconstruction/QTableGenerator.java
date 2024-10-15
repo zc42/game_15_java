@@ -134,8 +134,6 @@ public class QTableGenerator {
             Action action;
             String state0Hash = state.getHashCodeV3__();
 
-//            QTableUpdater._addStateWithZeroValuesToQTableIfStateNotExist(qTable, state);
-
             action = qTable.getOrDefault(state0Hash, null);
             action = QTableRow.getActionWithMaxValue(state, action, reverseAction);
             reverseAction = GameUtils.getReverseAction(action);

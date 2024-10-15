@@ -30,21 +30,7 @@ public class EnvironmentState implements Serializable {
     }
 
     public int getHashCodeV2() {
-        String ab = IntStream.range(0, 16).boxed()
-                .map(e -> {
-                    String v;
-                    Integer o = state.get(e);
-                    if (o == -1) v = "*";
-                    else if (goals.contains(o)) v = String.valueOf(o);
-                    else if (goals.contains(e + 1)) v = "o";
-                    else v = " ";
-                    v = v + "\t";
-                    if (e != 0 && (e + 1) % 4 == 0) v = v + "\n";
-                    return v;
-                })
-                .collect(Collectors.joining(""));
-
-        return ab.hashCode();
+        return getHashCodeV3__().hashCode();
     }
 
     public String getHashCodeV3__() {
@@ -59,21 +45,9 @@ public class EnvironmentState implements Serializable {
                     v = v + "\t";
                     if (e != 0 && (e + 1) % 4 == 0) v = v + "\n";
                     return v;
-
-
-//                    String v;
-//                    Integer o = state.get(e);
-//                    if (o == -1) v = "*";
-//                    else if (goals.contains(o)) v = String.valueOf(o);
-//                    else if (goals.contains(e + 1)) v = "o";
-//                    else v = " ";
-//                    v = v + "_";
-//                    if (e != 0 && (e + 1) % 4 == 0) v = v + "|";
-//                    return v;
                 })
                 .collect(Collectors.joining(""));
     }
-
 
     public int getHashCode() {
         String a = state.stream().map(String::valueOf).collect(Collectors.joining(","));
