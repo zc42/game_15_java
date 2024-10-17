@@ -105,64 +105,6 @@ public class QTableGenerator {
         Thread.sleep(3000);
     }
 
-    @SneakyThrows
-    public static void test_v2(Map<String, Action> qTable) {
-
-        prntln("********************* test q table **********************");
-        prntln("********************* test q table **********************");
-        prntln("********************* test q table **********************");
-
-        int lessonNo = 0;
-        List<StateProducer> lessons = StateProducer.generateLessons();
-        int lessonCount = lessons.size();
-        StateProducer stateProducer = lessons.get(lessonNo);
-        List<Integer> v = StateShuffle.shuffle(StateProducer.stateDone, List.of(), 1000);
-        EnvironmentState state = new EnvironmentState(v, stateProducer);
-        List<Integer> goals = stateProducer.getGoals();
-
-        prntState(state);
-
-        boolean gameOver = false;
-        int step = 0;
-        Action reverseAction = null;
-        while (!gameOver && step < 200) {
-
-            Thread.sleep(1000 / 2);
-            ConsoleUtils.clearScreen();
-
-            step++;
-            Action action;
-            String state0Hash = state.getHashCodeV3__();
-
-            action = qTable.getOrDefault(state0Hash, null);
-            action = QTableRow.getActionWithMaxValue(state, action, reverseAction);
-            reverseAction = GameUtils.getReverseAction(action);
-            prntln("\naction: " + action);
-
-            List<Integer> newState = makeMove(state.getState(), action);
-            boolean isTerminal = Environment.isTerminalSuccess(newState, goals);
-
-            state = new EnvironmentState(newState, stateProducer);
-            gameOver = state.getState().equals(StateProducer.stateDone);
-
-            prntln(step + "\n----\n");
-            prntState(state);
-
-            if (isTerminal && !gameOver && lessonNo < lessonCount - 1) {
-                lessonNo++;
-                stateProducer = lessons.get(lessonNo);
-                goals = stateProducer.getGoals();
-                prntln("lesson change: " + lessonNo);
-                prntln(goals);
-                state = new EnvironmentState(state.getState(), stateProducer);
-            }
-        }
-
-        boolean isTerminalSuccess = Environment.isTerminalSuccess(state);
-        prntln("success: " + isTerminalSuccess);
-        Thread.sleep(3000);
-    }
-
     private static void prntState(EnvironmentState state) {
         String s = GameUtils.stateAsString(state.getState(), state.getGoals());
         prntln(s);

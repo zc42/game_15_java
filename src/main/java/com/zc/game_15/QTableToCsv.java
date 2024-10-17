@@ -14,6 +14,7 @@ import static com.zc.game_15.reconstruction.QTableGenerator.loadQTable;
 import static com.zc.utils.Utils.prnt;
 
 public class QTableToCsv {
+
     public static void main(String[] args) {
         String qTableFileName = "qTable.ser";
         String csvFileName = "qTableActions.csv";
@@ -65,17 +66,6 @@ public class QTableToCsv {
         List<Integer> goals = row.getState().getGoals();
         return IntStream.range(0, 16).boxed()
                 .map(e -> {
-//                    String v;
-//                    Integer o = state.get(e);
-//                    if (o == -1) v = "*";
-//                    else if (goals.contains(o)) v = String.valueOf(o);
-//                    else if (goals.contains(e + 1)) v = "o";
-//                    else v = " ";
-//                    v = v + "\t";
-//                    if (e != 0 && (e + 1) % 4 == 0) v = v + "\n";
-//                    return v;
-
-
                     String v;
                     Integer o = state.get(e);
                     if (o == -1) v = "*";

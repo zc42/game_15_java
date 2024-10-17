@@ -36,15 +36,15 @@ public class StateProducer implements Serializable {
         return List.of
                 (
                         state1(0),
-                        moveHole(stateX(2, 1), List.of(1, 4)),
-                        moveHole(stateX(3, 2), List.of(2, 5)),
-                        moveHole(state3_4(3), List.of(3, 6)),
-                        moveHole(stateX(5, 4), List.of(6, 7)),
-                        moveHole(stateX(6, 5), List.of(5, 8)),
-                        moveHole(stateX(7, 6), List.of(6, 9)),
-                        moveHole(state7_8(7), List.of(8, 11)),
-                        moveHole(state9_13(8), List.of(10, 11)),
-                        moveHole(state10_15(9), List.of(9, 13)),
+                        moveHoleToStartAtPosition(stateX(2, 1), List.of(1, 4)),
+                        moveHoleToStartAtPosition(stateX(3, 2), List.of(2, 5)),
+                        moveHoleToStartAtPosition(state3_4(3), List.of(3, 6)),
+                        moveHoleToStartAtPosition(stateX(5, 4), List.of(6, 7)),
+                        moveHoleToStartAtPosition(stateX(6, 5), List.of(5, 8)),
+                        moveHoleToStartAtPosition(stateX(7, 6), List.of(6, 9)),
+                        moveHoleToStartAtPosition(state7_8(7), List.of(8, 11)),
+                        moveHoleToStartAtPosition(state9_13(8), List.of(10, 11)),
+                        moveHoleToStartAtPosition(state10_15(9), List.of(9, 13)),
                         state12(10)
                 );
     }
@@ -53,13 +53,13 @@ public class StateProducer implements Serializable {
         return List.of
                 (
                         state1_2(0),
-                        moveHole(state3_4(1), List.of(2, 3, 4)),
-                        moveHole(stateX(5, 2), List.of(6, 7)),
-                        moveHole(stateX(6, 3), List.of(5, 8)),
-                        moveHole(stateX(7, 4), List.of(6, 9)),
-                        moveHole(state7_8(5), List.of(8, 11)),
-                        moveHole(state9_13(6), List.of(10, 11)),
-                        moveHole(state10_15(7), List.of(9, 13)),
+                        moveHoleToStartAtPosition(state3_4(1), List.of(2, 3, 4)),
+                        moveHoleToStartAtPosition(stateX(5, 2), List.of(6, 7)),
+                        moveHoleToStartAtPosition(stateX(6, 3), List.of(5, 8)),
+                        moveHoleToStartAtPosition(stateX(7, 4), List.of(6, 9)),
+                        moveHoleToStartAtPosition(state7_8(5), List.of(8, 11)),
+                        moveHoleToStartAtPosition(state9_13(6), List.of(10, 11)),
+                        moveHoleToStartAtPosition(state10_15(7), List.of(9, 13)),
                         state12(8)
                 );
     }
@@ -68,11 +68,11 @@ public class StateProducer implements Serializable {
         return List.of
                 (
                         state1_2(0),
-                        moveHole(state3_4(1), List.of(2, 3, 4)),
-                        moveHole(state5_6(2), List.of(6, 7)),
-                        moveHole(state7_8(3), List.of(8, 9, 6)),
-                        moveHole(state9_13(4), List.of(10, 11)),
-                        moveHole(state10_15(5), List.of(9, 13)),
+                        moveHoleToStartAtPosition(state3_4(1), List.of(2, 3, 4)),
+                        moveHoleToStartAtPosition(state5_6(2), List.of(6, 7)),
+                        moveHoleToStartAtPosition(state7_8(3), List.of(8, 9, 6)),
+                        moveHoleToStartAtPosition(state9_13(4), List.of(10, 11)),
+                        moveHoleToStartAtPosition(state10_15(5), List.of(9, 13)),
                         state12(6)
                 );
     }
@@ -100,7 +100,12 @@ public class StateProducer implements Serializable {
         o.state = stateDone;
         o.episodesToTrain = 100;
 
-        shuffle(o, List.of(1, 2, 3));
+        //cia kazkoks keistas case'as padarytas , nes o.lockedStateElements = List.of(1, 2); ir visur naudaojama po to sitas
+        //o cia sitaip 1,2,3
+        //shuffle(o, List.of(1, 2, 3));
+        //nu normaliai ir su [1, 2] kaip ir (lyg ir).. nepamenu case'o kur tas 1,2,3 butu reikalingas .. gliukas gal ..
+        //gal tiesiog developinant pradzioj buvo kazkas neaisku su situo case'u .. nes cia 3, 4
+        shuffle(o, o.lockedStateElements);
 
         return o;
     }
@@ -127,7 +132,7 @@ public class StateProducer implements Serializable {
         return o;
     }
 
-    private static StateProducer moveHole(StateProducer o, List<Integer> holeIndexes) {
+    private static StateProducer moveHoleToStartAtPosition(StateProducer o, List<Integer> holeIndexes) {
         int ih = holeIndexes.stream().min(random()).orElseThrow();
         int i = o.state.indexOf(-1);
         int v = o.state.get(ih);

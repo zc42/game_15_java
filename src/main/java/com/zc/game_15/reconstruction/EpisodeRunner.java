@@ -69,8 +69,8 @@ public class EpisodeRunner {
 
         replayExperience(experience, qTable, learning_rate, discount, 1000);
 
-        double count = qTable.values().stream().map(e -> e.qValues.size()).mapToDouble(e -> e).sum();
-        String message = MessageFormat.format("Episode {0} done, states count: {1}, experience size: {2}", episode, count, experience.size());
+//        double count = qTable.values().stream().map(e -> e.qValues.size()).mapToDouble(e -> e).sum();
+        String message = MessageFormat.format("Episode {0} done, states count: {1}, experience size: {2}", episode, qTable.size(), experience.size());
         prnt(message);
         prnt("");
     }
