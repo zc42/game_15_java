@@ -82,4 +82,23 @@ public class QTableRow implements Serializable {
                 .map(Map.Entry::getValue)
                 .orElse(0d);
     }
+
+    public Action getActionWithMaxValue_random(SoftmaxSelector softmaxSelector, Action reverseLastAction) {
+
+        List<Map.Entry<Action, Double>> entries = qValues.entrySet().stream()
+                .filter(e -> e.getKey() != reverseLastAction)
+                .collect(Collectors.toList());
+        int key = state.getHashCodeV2();
+        Optional<Action> actionOption = softmaxSelector.selectActionSoftmax(key, entries);
+
+        if (actionOption.isEmpty()) {
+            prntln("WARNING: no action found");
+            List<Action> possibleActions = Environment.getPossibleActions(state);
+            possibleActions.remove(reverseLastAction);
+            return !possibleActions.isEmpty() ? possibleActions.get(0) : Action.D;
+        } else {
+            return actionOption.get();
+        }
+
+    }
 }

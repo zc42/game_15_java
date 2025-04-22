@@ -29,8 +29,11 @@ public class EnvironmentState implements Serializable {
         this.fixedElements = new ArrayList<>(state.getFixedElements());
     }
 
+    private Integer _key;
     public int getHashCodeV2() {
-        return getHashCodeV3__().hashCode();
+        return _key == null
+                ? _key = getHashCodeV3__().hashCode()
+                : _key;
     }
 
     public String getHashCodeV3__() {

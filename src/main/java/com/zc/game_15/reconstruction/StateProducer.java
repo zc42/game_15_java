@@ -1,5 +1,7 @@
 package com.zc.game_15.reconstruction;
 
+import com.zc.utils.Pair;
+import com.zc.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,10 +9,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.zc.utils.Pair.P;
 import static com.zc.utils.RandomComparator.random;
+import static com.zc.utils.Utils.prnt;
 
 @Setter
 @Getter
@@ -145,11 +150,20 @@ public class StateProducer implements Serializable {
     private static StateProducer state7_8(int lessonNb1) {
         var o = new StateProducer(lessonNb1);
         o.goals = List.of(7, 8);
-        o.lockedStateElements = List.of(1, 2, 3, 4, 5, 6);
+        o.lockedStateElements = List.of
+                (
+                        1, 2, 3, 4,
+                        5, 6
+                );
         o.state = stateDone;
         o.episodesToTrain = 100;
 
-        shuffle(o, List.of(1, 2, 3, 4, 5, 6, 7));
+        shuffle(o, List.of
+                (
+                        1, 2, 3, 4,
+                        5, 6, 7
+                )
+        );
         return o;
     }
 
@@ -215,5 +229,57 @@ public class StateProducer implements Serializable {
         lockedStateElements = new ArrayList<>(o.lockedStateElements);
         state = new ArrayList<>(o.state);
     }
+
+    public static void main(String[] args) {
+        shuffle(List.of(1, 2, 3, 4, 5, 6));
+    }
+
+    public static List<Integer> shuffle(List<Integer> lockedStateElements) {
+        List<Integer> freeElements = IntStream.rangeClosed(1, 16).boxed()
+                .filter(e -> !lockedStateElements.contains(e))
+                .peek(Utils::prnt)
+                .collect(Collectors.toList());
+
+        prnt("---");
+        List<Integer> randomFreeElements = freeElements.stream()
+                .sorted(random())
+                .peek(Utils::prnt)
+                .collect(Collectors.toList());
+
+        prnt("---");
+        List<Pair<Integer, Integer>> paired = IntStream.range(0, freeElements.size()).boxed()
+                .map(e -> P(freeElements.get(e), randomFreeElements.get(e)))
+                .peek(Utils::prnt)
+                .collect(Collectors.toList());
+
+        prnt("---");
+
+        List<Pair<Integer, Integer>> shuffledBoardState = IntStream.range(0, 16).boxed()
+                .map(e -> zip(paired, e))
+                .peek(Utils::prnt)
+//                .peek(e->prnt(e.getValue()))
+                .collect(Collectors.toList());
+
+        return shuffledBoardState.stream()
+                .map(Pair::getValue)
+                .map(e -> e == 16 ? -1 : e)
+                .peek(Utils::prnt)
+                .collect(Collectors.toList());
+    }
+
+    private static Pair<Integer, Integer> zip(List<Pair<Integer, Integer>> paired, int index) {
+        Optional<Pair<Integer, Integer>> pairOption = paired.stream().filter(e -> e.getKey() == index + 1).findFirst();
+        if (pairOption.isEmpty()) return P(index, index + 1);
+        else return pairOption.map(e -> P(index, e.getValue())).orElseThrow();
+    }
+
+
+    /*
+1 2 3 4
+5 6 7 8
+9 -1 14 10
+13 11 12 16
+     */
+
 }
 

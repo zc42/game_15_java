@@ -61,6 +61,8 @@ public class QTableGenerator {
 
         prntState(state);
 
+        SoftmaxSelector softmaxSelector = new SoftmaxSelector();
+
         boolean gameOver = false;
         int step = 0;
         Action reverseAction = null;
@@ -77,7 +79,9 @@ public class QTableGenerator {
             QTableUpdater.addStateWithZeroValuesToQTableIfStateNotExist(qTable, state);
 
             QTableRow qTableRow = qTable.get(state0Hash);
-            action = qTableRow.getActionWithMaxValue(reverseAction);
+//            sasasa;
+//            action = qTableRow.getActionWithMaxValue(reverseAction);
+            action = qTableRow.getActionWithMaxValue_random(softmaxSelector, reverseAction);
 
             reverseAction = GameUtils.getReverseAction(action);
 
