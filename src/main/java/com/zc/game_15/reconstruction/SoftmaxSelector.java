@@ -29,10 +29,9 @@ public class SoftmaxSelector {
 
         // Step 3: Normalize to get probabilities
         double finalSumExp = sumExp;
-        List<Double> probs = expValues.stream()
+        return expValues.stream()
                 .map(val -> val / finalSumExp)
                 .collect(Collectors.toList());
-        return probs;
     }
 
     private Optional<Action> getAction(List<Map.Entry<Action, Double>> entries, List<Double> probs) {
